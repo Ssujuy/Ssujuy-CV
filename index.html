@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssujuy CV</title>
+    <style>
+        /* Center align the container */
+        #pdf-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        /* Style each canvas to take the full width of the screen */
+        canvas {
+            width: 100%; /* Adjusts each page to fill the container's width */
+            max-width: 800px; /* Optional max-width for readability */
+            margin-bottom: 20px; /* Spacing between pages */
+            border: 1px solid #ccc; /* Optional border for better visibility */
+        }
+    </style>
 </head>
 <body>
     <h2>Displaying PDF as Pages using PDF.js</h2>
