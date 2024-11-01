@@ -6,31 +6,41 @@
     <title>Ssujuy CV</title>
 </head>
 <body>
-<!-- Method 4: Using PDF.js -->
-    <h2>Using PDF.js</h2>
-    <!-- Add your path to the pdf.js library -->
+    <h2>Displaying PDF as Pages using PDF.js</h2>
+
+    <!-- Add PDF.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <canvas id="pdf-canvas"></canvas>
+
+    <!-- Container for PDF pages -->
+    <div id="pdf-container"></div>
 
     <script>
-        var url = 'Konstantinos_Arvanitis_CV.pdf';
+        const url = 'Konstantinos_Arvanitis_CV.pdf';
+        const container = document.getElementById('pdf-container');
 
-        // Load the PDF
+        // Load the PDF document
         pdfjsLib.getDocument(url).promise.then(function(pdf) {
-            pdf.getPage(1).then(function(page) {
-                var scale = 1.5;
-                var viewport = page.getViewport({ scale: scale });
-                var canvas = document.getElementById('pdf-canvas');
-                var context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+            // Loop through each page
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                pdf.getPage(pageNumber).then(function(page) {
+                    const scale = 1.5;
+                    const viewport = page.getViewport({ scale: scale });
 
-                var renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-                page.render(renderContext);
-            });
+                    // Create a canvas element for each page
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    container.appendChild(canvas);
+
+                    const context = canvas.getContext('2d');
+
+                    // Render the page onto the canvas
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    });
+                });
+            }
         });
     </script>
 </body>
