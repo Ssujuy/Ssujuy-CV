@@ -5,25 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssujuy CV</title>
     <style>
-        /* Center align the container */
+        /* Side-by-side layout for PDF pages */
         #pdf-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
+            flex-direction: row; /* Arrange canvases in a row */
+            flex-wrap: nowrap;   /* Adjust to nowrap if you don't want them to wrap to a new line */
+            overflow-x: auto;    /* Adds horizontal scroll if needed */
+            gap: 10px;           /* Spacing between pages */
+            padding: 10px;       /* Optional padding around container */
         }
         
-        /* Style each canvas to take the full width of the screen */
+        /* Canvas styling for uniform page width */
         canvas {
-            width: 100%; /* Adjusts each page to fill the container's width */
-            max-width: 800px; /* Optional max-width for readability */
-            margin-bottom: 20px; /* Spacing between pages */
+            width: 100%; /* Makes each page width consistent */
+            max-width: 600px; /* Set max width for readability */
             border: 1px solid #ccc; /* Optional border for better visibility */
         }
     </style>
 </head>
 <body>
-    <h2>Displaying PDF as Pages using PDF.js</h2>
+    <h2>Displaying PDF Pages Side-by-Side</h2>
 
     <!-- Add PDF.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
