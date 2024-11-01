@@ -5,56 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssujuy CV</title>
     <style>
-        /* Center align the container */
         #pdf-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
+            position: relative;
         }
-        
-        /* Style each canvas to take the full width of the screen */
+
+        .page-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
         canvas {
-            width: 100%; /* Adjusts each page to fill the container's width */
-            max-width: 800px; /* Optional max-width for readability */
-            margin-bottom: 20px; /* Spacing between pages */
-            border: 1px solid #ccc; /* Optional border for better visibility */
+            width: 100%;
+        }
+
+        .link-overlay {
+            position: absolute;
+            border: 0; /* Removes any visible border */
+            background: transparent; /* Transparent background */
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h2>Displaying PDF as Pages using PDF.js</h2>
+    <h2>Displaying PDF as Pages with Clickable Links using PDF.js</h2>
 
-    <!-- Add PDF.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
-    <!-- Container for PDF pages -->
     <div id="pdf-container"></div>
 
     <script>
         const url = 'Konstantinos_Arvanitis_CV.pdf';
         const container = document.getElementById('pdf-container');
 
-        // Load the PDF document
         pdfjsLib.getDocument(url).promise.then(function(pdf) {
-            // Loop through each page
             for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
                 pdf.getPage(pageNumber).then(function(page) {
                     const scale = 1.5;
                     const viewport = page.getViewport({ scale: scale });
 
-                    // Create a canvas element for each page
+                    // Create a container for each page
+                    const pageContainer = document.createElement('div');
+                    pageContainer.classList.add('page-container');
+                    pageContainer.style.width = `${viewport.width}px`;
+                    pageContainer.style.height = `${viewport.height}px`;
+                    container.appendChild(pageContainer);
+
+                    // Create the canvas
                     const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
-                    container.appendChild(canvas);
+                    pageContainer.appendChild(canvas);
 
-                    const context = canvas.getContext('2d');
-
-                    // Render the page onto the canvas
+                    // Render the PDF page onto the canvas
                     page.render({
                         canvasContext: context,
                         viewport: viewport
+                    });
+
+                    // Get and render annotations (including links)
+                    page.getAnnotations().then(function(annotations) {
+                        annotations.forEach(function(annotation) {
+                            if (annotation.subtype === 'Link' && annotation.url) {
+                                // Calculate the position of the link overlay
+                                const rect = pdfjsLib.Util.normalizeRect(annotation.rect);
+                                const x = rect[0] * scale;
+                                const y = viewport.height - rect[1] * scale;
+                                const width = (rect[2] - rect[0]) * scale;
+                                const height = (rect[3] - rect[1]) * scale;
+
+                                // Create the clickable link overlay
+                                const link = document.createElement('a');
+                                link.href = annotation.url;
+                                link.className = 'link-overlay';
+                                link.style.left = `${x}px`;
+                                link.style.top = `${y - height}px`;
+                                link.style.width = `${width}px`;
+                                link.style.height = `${height}px`;
+                                link.target = '_blank';
+
+                                // Append the link overlay to the page container
+                                pageContainer.appendChild(link);
+                            }
+                        });
                     });
                 });
             }
