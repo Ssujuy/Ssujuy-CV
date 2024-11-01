@@ -13,12 +13,19 @@
             width: 100%;
         }
         
-        /* Style each canvas to take the full width of the screen */
+        /* Flex container for the first two pages */
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Spacing between the first two pages */
+            width: 100%;
+            max-width: 1000px; /* Optional max-width for row layout */
+        }
+
+        /* Style for each canvas */
         canvas {
-            width: 100%; /* Adjusts each page to fill the container's width */
-            max-width: 800px; /* Optional max-width for readability */
-            margin-bottom: 20px; /* Spacing between pages */
-            border: 1px solid #ccc; /* Optional border for better visibility */
+            max-width: 500px; /* Width constraint for each page */
+            margin-bottom: 20px; /* Spacing between rows */
         }
     </style>
 </head>
@@ -27,11 +34,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
     <!-- Container for PDF pages -->
-    <div id="pdf-container"></div>
+    <div id="pdf-container">
+        <div class="row" id="first-row"></div>
+        <div id="second-row"></div>
+    </div>
 
     <script>
         const url = 'Konstantinos_Arvanitis_CV.pdf';
-        const container = document.getElementById('pdf-container');
 
         // Load the PDF document
         pdfjsLib.getDocument(url).promise.then(function(pdf) {
@@ -45,15 +54,19 @@
                     const canvas = document.createElement('canvas');
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
-                    container.appendChild(canvas);
 
                     const context = canvas.getContext('2d');
-
-                    // Render the page onto the canvas
                     page.render({
                         canvasContext: context,
                         viewport: viewport
                     });
+
+                    // Add canvases for pages 1 and 2 side by side, and page 3 below page 1
+                    if (pageNumber === 1 || pageNumber === 2) {
+                        document.getElementById('first-row').appendChild(canvas);
+                    } else if (pageNumber === 3) {
+                        document.getElementById('second-row').appendChild(canvas);
+                    }
                 });
             }
         });
