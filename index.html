@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ssujuy CV</title>
     <style>
+        /* Center align the container */
         #pdf-container {
             display: flex;
             flex-direction: column;
@@ -13,22 +14,23 @@
             position: relative;
         }
 
+        /* Style for each page container */
         .page-container {
             position: relative;
             width: 100%;
             max-width: 800px;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
         }
 
+        /* Style for each canvas */
         canvas {
             width: 100%;
         }
 
+        /* Overlay for clickable links */
         .link-overlay {
             position: absolute;
-            border: 0; /* Removes any visible border */
-            background: transparent; /* Transparent background */
+            background: transparent;
             cursor: pointer;
         }
     </style>
@@ -36,8 +38,10 @@
 <body>
     <h2>Displaying PDF as Pages with Clickable Links using PDF.js</h2>
 
+    <!-- Add PDF.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
+    <!-- Container for PDF pages -->
     <div id="pdf-container"></div>
 
     <script>
