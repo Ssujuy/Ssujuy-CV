@@ -16,15 +16,20 @@
         /* Flex container for the first two pages */
         .row {
             display: flex;
-            justify-content: space-between; /* Space between the two pages */
+            justify-content: space-between; /* Space between the first two pages */
             width: 100%;
-            max-width: 100%; /* Full width for container */
+            max-width: 100%; /* Full width for the container */
         }
 
         /* Style for each canvas */
         canvas {
             width: 50%; /* Each page takes up 50% width */
             margin-bottom: 20px; /* Spacing between rows */
+        }
+
+        /* Align the third page to the left */
+        #second-row canvas {
+            align-self: flex-start; /* Align third page to the left */
         }
     </style>
 </head>
