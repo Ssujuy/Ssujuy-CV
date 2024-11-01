@@ -6,30 +6,26 @@
     <title>Display PDF in HTML</title>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <canvas id="pdf-canvas"></canvas>
+    <h1>Display PDF in HTML</h1>
 
-    <script>
-        var url = 'Konstantinos_Arvanitis_CV.pdf';
+    <!-- Method 1: Using iframe -->
+    <h2>Using iframe</h2>
+    <iframe src="path/to/your-file.pdf" width="100%" height="600px"></iframe>
 
-        // Load the PDF
-        pdfjsLib.getDocument(url).promise.then(function(pdf) {
-            pdf.getPage(1).then(function(page) {
-                var scale = 1.5;
-                var viewport = page.getViewport({ scale: scale });
-                var canvas = document.getElementById('pdf-canvas');
-                var context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+<!--     <!-- Method 2: Using embed -->
+    <h2>Using embed</h2>
+    <embed src="path/to/your-file.pdf" width="100%" height="600px" type="application/pdf">
 
-                var renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-                page.render(renderContext);
-            });
-        });
-    </script>
+    <!-- Method 3: Using object -->
+    <h2>Using object</h2>
+    <object data="path/to/your-file.pdf" type="application/pdf" width="100%" height="600px">
+        <p>Your browser does not support PDFs. <a href="path/to/your-file.pdf">Download the PDF</a>.</p>
+    </object>
 
+    <!-- Method 4: Using PDF.js -->
+    <h2>Using PDF.js</h2>
+    <!-- Add your path to the pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <canvas id="pdf-canvas"></canvas> -->
 </body>
 </html>
