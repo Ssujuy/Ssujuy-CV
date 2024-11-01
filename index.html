@@ -16,15 +16,14 @@
         /* Flex container for the first two pages */
         .row {
             display: flex;
-            justify-content: center;
-            gap: 10px; /* Spacing between the first two pages */
+            justify-content: space-between; /* Space between the two pages */
             width: 100%;
-            max-width: 1000px; /* Optional max-width for row layout */
+            max-width: 100%; /* Full width for container */
         }
 
         /* Style for each canvas */
         canvas {
-            max-width: 500px; /* Width constraint for each page */
+            width: 50%; /* Each page takes up 50% width */
             margin-bottom: 20px; /* Spacing between rows */
         }
     </style>
@@ -61,7 +60,7 @@
                         viewport: viewport
                     });
 
-                    // Add canvases for pages 1 and 2 side by side, and page 3 below page 1
+                    // Append canvases for pages 1 and 2 side by side, and page 3 below page 1
                     if (pageNumber === 1 || pageNumber === 2) {
                         document.getElementById('first-row').appendChild(canvas);
                     } else if (pageNumber === 3) {
